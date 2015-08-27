@@ -19,6 +19,7 @@
 ########################################################
 from roverShell import *
 
+
 class roverBrain():
     def __init__(self):
         self.quit = False
@@ -67,7 +68,7 @@ class roverBrain():
         pygame.display.update((400, 0, 32, 24))
 
 
-        #Warning message, blitscal is giving an invalid division type
+        # Warning message, blitscal is giving an invalid division type
         for k in range(min(1, self.rover.n2)):
             imagew11 = pygame.surfarray.make_surface(np.reshape(self.blitscale(self.rover.w1[:-1, k]), (32, 24, 3)))
             self.screen.blit(imagew11, (500 + 40 * k, 0))
@@ -105,28 +106,18 @@ class roverBrain():
                 pass
 
     def updatetreads(self, key=None):
-
         if key is None:
             self.rover.treads = [0, 0]
-
         elif key is K_w:
-            self.rover.treads = [.3, .3]
-
-        elif key is K_s:
-            self.rover.treads = [-.3, -.3]
-
+            self.rover.treads = [1, 1]
         elif key is K_a:
-            self.rover.treads = [-.5, .5]
-
+            self.rover.treads = [-1, 1]
         elif key is K_d:
-            self.rover.treads = [.5, -.5]
-
-        elif key is K_q:
-            print self.rover.nn_treads
-            self.rover.treads = self.rover.nn_treads
+            self.rover.treads = [1, -1]
+        elif key is K_s:
+            self.rover.treads = [-1, -1]
         else:
-            if key is K_w and K_a:
-                self.rover.treads = [.3, .6]
+            pass
 
     def updatePeripherals(self, key=None):
         if key is None:
