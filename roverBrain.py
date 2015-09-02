@@ -5,9 +5,9 @@
 #   Center for Complex Systems and Brain Sciences
 #           Florida Atlantic University
 #
-# ------------------------------------------------------#
+#------------------------------------------------------#
 ########################################################
-# ------------------------------------------------------#
+#------------------------------------------------------#
 #
 # Distributed ALVINN, See:
 # Pomerleau, Dean A. Alvinn:
@@ -15,8 +15,9 @@
 # No. AIP-77. Carnegie-Mellon Univ Pittsburgh Pa
 # Artificial Intelligence And Psychology Project, 1989.
 #
-# ------------------------------------------------------#
+#------------------------------------------------------#
 ########################################################
+
 from roverShell import *
 
 
@@ -37,10 +38,11 @@ class roverBrain():
         self.clock = pygame.time.Clock()
         self.run()
 
+
     def run(self):
         sleep(1.5)
         while not self.quit:
-            self.parsecontrols()
+            self.parseControls()
             self.refreshVideo()
         self.rover.quit = True
         pygame.quit()
@@ -51,6 +53,7 @@ class roverBrain():
         x *= 255.0 / x.max()
 
         return x
+
 
     def refreshVideo(self):
 
@@ -67,8 +70,6 @@ class roverBrain():
         self.screen.blit(image10, (400, 0))
         pygame.display.update((400, 0, 32, 24))
 
-
-        # Warning message, blitscal is giving an invalid division type
         for k in range(min(1, self.rover.n2)):
             imagew11 = pygame.surfarray.make_surface(np.reshape(self.blitscale(self.rover.w1[:-1, k]), (32, 24, 3)))
             self.screen.blit(imagew11, (500 + 40 * k, 0))
@@ -84,20 +85,21 @@ class roverBrain():
 
         self.clock.tick(self.fps)
 
-    def parsecontrols(self):
+
+    def parseControls(self):
         for event in pygame.event.get():
             if event.type == QUIT:
                 self.quit = True
             elif event.type == KEYDOWN:
                 if event.key in (K_j, K_k, K_SPACE, K_u, K_i, K_o):
                     self.updatePeripherals(event.key)
-                elif event.key in (K_w, K_a, K_s, K_d, K_q):
-                    self.updatetreads(event.key)
+                elif event.key in (K_w, K_a, K_s, K_d, K_q, K_e, K_z, K_c, K_r):
+                    self.updateTreads(event.key)
                 else:
                     pass
             elif event.type == KEYUP:
-                if event.key in (K_w, K_a, K_s, K_d, K_q):
-                    self.updatetreads()
+                if event.key in (K_w, K_a, K_s, K_d, K_q, K_e, K_z, K_c, K_r):
+                    self.updateTreads()
                 elif event.key in (K_j, K_k):
                     self.updatePeripherals()
                 else:
@@ -105,19 +107,32 @@ class roverBrain():
             else:
                 pass
 
-    def updatetreads(self, key=None):
+
+    def updateTreads(self, key=None):
+
         if key is None:
             self.rover.treads = [0, 0]
         elif key is K_w:
             self.rover.treads = [1, 1]
+        elif key is K_s:
+            self.rover.treads = [-1, -1]
         elif key is K_a:
             self.rover.treads = [-1, 1]
         elif key is K_d:
             self.rover.treads = [1, -1]
-        elif key is K_s:
-            self.rover.treads = [-1, -1]
+        elif key is K_q:
+            #print self.rover.nn_treads
+            #self.rover.treads = self.rover.nn_treads
+            self.rover.treads = [.1, 1]
+        elif key is K_e:
+            self.rover.treads = [1, .1]
+        elif key is K_z:
+            self.rover.treads = [-.1, -1]
+        elif key is K_c:
+            self.rover.treads = [-1, -.1]
         else:
             pass
+
 
     def updatePeripherals(self, key=None):
         if key is None:
@@ -136,6 +151,6 @@ class roverBrain():
             self.rover.peripherals['detect'] = not \
                 self.rover.peripherals['detect']
         elif key is K_SPACE:
-            self.takePicture()
+            pass
         else:
             pass
