@@ -1,8 +1,8 @@
 ########################################################
-#------------------------------------------------------#
+# ------------------------------------------------------#
 #
 # Machine Perception and Cognitive Robotics Laboratory
-#   Center for Complex Systems and Brain Sciences
+# Center for Complex Systems and Brain Sciences
 #           Florida Atlantic University
 #
 #------------------------------------------------------#
@@ -24,7 +24,7 @@
 from roverBrain import *
 
 if __name__ == '__main__':
-	brain = roverBrain()
+    brain = roverBrain()
 
 
 
