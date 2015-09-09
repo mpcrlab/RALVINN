@@ -121,8 +121,6 @@ class roverBrain():
         elif key is K_d:
             self.rover.treads = [1, -1]
         elif key is K_q:
-            #print self.rover.nn_treads
-            #self.rover.treads = self.rover.nn_treads
             self.rover.treads = [.1, 1]
         elif key is K_e:
             self.rover.treads = [1, .1]
@@ -130,6 +128,8 @@ class roverBrain():
             self.rover.treads = [-.1, -1]
         elif key is K_c:
             self.rover.treads = [-1, -.1]
+        elif key is K_r:
+            self.rover.treads = self.rover.nn_treads
         else:
             pass
 
