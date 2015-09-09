@@ -129,6 +129,7 @@ class roverBrain():
         elif key is K_c:
             self.rover.treads = [-1, -.1]
         elif key is K_r:
+            # R will replace Q as the new learning button
             self.rover.treads = self.rover.nn_treads
         else:
             pass
