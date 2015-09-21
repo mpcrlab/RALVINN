@@ -43,7 +43,7 @@ class roverShell(Rover20):
         self.treads = [0, 0]
         self.nn_treads = [0, 0]
         self.currentImage = None
-        self.peripherals = {'lights': False, 'stealth': False, \
+        self.peripherals = {'lights': False, 'stealth': False,
                             'detect': True, 'camera': 0}
 
         self.action_choice = 1
@@ -52,8 +52,8 @@ class roverShell(Rover20):
         self.action_vectors_neuro = [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]
 
         self.n1 = 32 * 24 * 3
-        self.n2 = 50
-        self.n3 = 4
+        self.n2 = 50  # Number of neurons on the network
+        self.n3 = 4  # Number of actions available, like forward, back , left and right.
 
         self.w1 = 0.0001 * np.random.random((self.n1 + 1, self.n2))
         self.w2 = 0.01 * np.random.random((self.n2 + 1, self.n3))
@@ -61,9 +61,9 @@ class roverShell(Rover20):
         self.dw1 = np.zeros(self.w1.shape)
         self.dw2 = np.zeros(self.w2.shape)
 
-        self.L1 = 0.001
-        self.L2 = 0.01
-        self.M = .5  # new value
+        self.L1 = 0.001  # learning rate of network
+        self.L2 = 0.01  # learning rate of network
+        self.M = .5  # magnitude of weights
 
     # main loop
     def processVideo(self, jpegbytes, timestamp_10msec):
@@ -133,8 +133,10 @@ class roverShell(Rover20):
             self.w1 = self.w1 + self.dw1
             self.w2 = self.w2 + self.dw2
 
-            self.w1 = self.w1 + 0.0001 * (-0.5 + np.random.random((self.w1.shape[0], self.w1.shape[1]))) # increase random Value
-            self.w2 = self.w2 + 0.0001 * (-0.5 + np.random.random((self.w2.shape[0], self.w2.shape[1]))) # increase random Value
+            self.w1 = self.w1 + 0.0001 * (
+                -0.5 + np.random.random((self.w1.shape[0], self.w1.shape[1])))  # increase random Value
+            self.w2 = self.w2 + 0.0001 * (
+                -0.5 + np.random.random((self.w2.shape[0], self.w2.shape[1])))  # increase random Value
 
     # camera features
     def setPeripherals(self):
