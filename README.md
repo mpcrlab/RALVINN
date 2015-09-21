@@ -4,7 +4,7 @@ Rover Autonomous Land Vehicle in a Neural Network
 
                         Machine Perception and Cognitive Robotics Laboratory
                             Center for Complex Systems and Brain Sciences
-                               Florida Atlantic University
+                                    Florida Atlantic University
 ------------------------------------------------------
 
   Distributed ALVINN, See:
