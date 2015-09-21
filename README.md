@@ -19,8 +19,8 @@
     1) To use this code you will need a Brookstone Rover 2.0
     2) Download the Source code into a local directory
     3) Open the code in your favorite python IDE i.e Pycharm or Spyder
-    4) Turn on the Rover 2.0 and connect to the signal created by the rover. It will have a 
-       name like ROVER_ID
+    4) Turn on the Rover 2.0 and connect to the signal created by the rover. 
+       It will have a name like ROVER_ID
     5) Run MPCR_RALVINN.py
     6) If done correctly you will see a live feed from the Rover 2.0 camera.
     7) Control the Rover 2.0 using:
