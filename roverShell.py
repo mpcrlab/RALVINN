@@ -5,9 +5,9 @@
 # Center for Complex Systems and Brain Sciences
 #           Florida Atlantic University
 #
-#------------------------------------------------------#
+# ------------------------------------------------------#
 ########################################################
-#------------------------------------------------------#
+# ------------------------------------------------------#
 #
 # Distributed ALVINN, See:
 # Pomerleau, Dean A. Alvinn:
@@ -15,7 +15,7 @@
 # No. AIP-77. Carnegie-Mellon Univ Pittsburgh Pa
 # Artificial Intelligence And Psychology Project, 1989.
 #
-#------------------------------------------------------#
+# ------------------------------------------------------#
 ########################################################
 
 import pygame
@@ -63,7 +63,7 @@ class roverShell(Rover20):
 
         self.L1 = 0.001
         self.L2 = 0.01
-        self.M = .5 # new value
+        self.M = .5  # new value
 
     # main loop
     def processVideo(self, jpegbytes, timestamp_10msec):
@@ -79,10 +79,8 @@ class roverShell(Rover20):
         if self.quit:
             self.close()
 
-
     # openCV operations
     def processImage(self, jpegbytes):
-
 
         self.currentImage = imresize(
             pygame.surfarray.array3d(pygame.image.load(cStringIO.StringIO(jpegbytes), 'tmp.jpg').convert()), (32, 24))
@@ -135,9 +133,8 @@ class roverShell(Rover20):
             self.w1 = self.w1 + self.dw1
             self.w2 = self.w2 + self.dw2
 
-            self.w1 = self.w1 + 0.00001 * (-0.5 + np.random.random((self.w1.shape[0], self.w1.shape[1])))
-            self.w2 = self.w2 + 0.00001 * (-0.5 + np.random.random((self.w2.shape[0], self.w2.shape[1])))
-
+            self.w1 = self.w1 + 0.0001 * (-0.5 + np.random.random((self.w1.shape[0], self.w1.shape[1]))) # increase random Value
+            self.w2 = self.w2 + 0.0001 * (-0.5 + np.random.random((self.w2.shape[0], self.w2.shape[1]))) # increase random Value
 
     # camera features
     def setPeripherals(self):
