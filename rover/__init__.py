@@ -85,6 +85,7 @@ class Rover:
         self.reader_thread = _MediaThread(self)
         self.reader_thread.start()
 
+
     def close(self):
         ''' Closes off commuincation with Rover.
         '''
@@ -101,6 +102,7 @@ class Rover:
         ''' Turns on stealth mode (infrared).
         '''
         self._sendCameraRequest(94)
+
 
     def turnStealthOff(self):
         ''' Turns off stealth mode (infrared).
@@ -194,6 +196,7 @@ class Rover20(Rover):
         '''
         self._setLights(8)
 
+
     def turnLightsOff(self):
         ''' Turns the headlights and taillights off.
         '''
@@ -217,6 +220,7 @@ class Rover20(Rover):
         '''
         pass
 
+
     def _spinWheels(self, wheeldir, speed):
         # 1: Right, forward
         # 2: Right, backward
@@ -224,7 +228,8 @@ class Rover20(Rover):
         # 5: Left, backward        
         self._sendDeviceControlRequest(wheeldir, speed)
 
-    # "Private" classes ===========================================================
+
+        # "Private" classes ===========================================================
 
 
 # A special Blowfish variant with P-arrays set to zero instead of digits of Pi
@@ -344,3 +349,8 @@ class _RoverCamera(object):
             else:
                 self.rover._sendCameraRequest(self.stopcmd + 1)
             self.isMoving = True
+
+
+ 
+
+

@@ -22,6 +22,7 @@ class MPCR_Rover_Image(Rover20):
         self.action_vectors = [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]
         self.data = np.ones(240 * 320 + 4)
 
+
     def mleft(self):
         self.setTreads(-1, 1)
         time.sleep(.1)
@@ -41,6 +42,7 @@ class MPCR_Rover_Image(Rover20):
         self.setTreads(-1, -1)
         time.sleep(.1)
         self.setTreads(0, 0)
+
 
     # called by Rover20, acts as main loop
     def processVideo(self, jpegbytes, timestamp_10msec):
@@ -95,3 +97,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+

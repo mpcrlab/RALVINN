@@ -2,20 +2,20 @@
 # ------------------------------------------------------#
 #
 # Machine Perception and Cognitive Robotics Laboratory
-#   Center for Complex Systems and Brain Sciences
+# Center for Complex Systems and Brain Sciences
 #           Florida Atlantic University
 #
-# ------------------------------------------------------#
+#------------------------------------------------------#
 ########################################################
-# ------------------------------------------------------#
+#------------------------------------------------------#
 #
 # Distributed ALVINN, See:
-# Pomerleau, Dean A. Alvinn: 
-# An autonomous land vehicle in a neural network. 
-# No. AIP-77. Carnegie-Mellon Univ Pittsburgh Pa 
+# Pomerleau, Dean A. Alvinn:
+# An autonomous land vehicle in a neural network.
+# No. AIP-77. Carnegie-Mellon Univ Pittsburgh Pa
 # Artificial Intelligence And Psychology Project, 1989.
 #
-# ------------------------------------------------------#
+#------------------------------------------------------#
 ########################################################
 
 import pygame
@@ -43,7 +43,7 @@ class roverShell(Rover20):
         self.treads = [0, 0]
         self.nn_treads = [0, 0]
         self.currentImage = None
-        self.peripherals = {'lights': False, 'stealth': False,
+        self.peripherals = {'lights': False, 'stealth': False, \
                             'detect': True, 'camera': 0}
 
         self.action_choice = 1
@@ -52,18 +52,19 @@ class roverShell(Rover20):
         self.action_vectors_neuro = [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]
 
         self.n1 = 32 * 24 * 3
-        self.n2 = 2
+        self.n2 = 50
         self.n3 = 4
 
-        self.w1 = 0.00001 * np.random.random((self.n1 + 1, self.n2))
+        self.w1 = 0.0001 * np.random.random((self.n1 + 1, self.n2))
         self.w2 = 0.01 * np.random.random((self.n2 + 1, self.n3))
 
         self.dw1 = np.zeros(self.w1.shape)
         self.dw2 = np.zeros(self.w2.shape)
 
-        self.L1 = 0.000001
-        self.L2 = 0.001
-        self.M = 0.9
+        self.L1 = 0.001
+        self.L2 = 0.01
+        self.M = .5
+
 
     # main loop
     def processVideo(self, jpegbytes, timestamp_10msec):
@@ -79,8 +80,10 @@ class roverShell(Rover20):
         if self.quit:
             self.close()
 
+
     # openCV operations
     def processImage(self, jpegbytes):
+
 
         self.currentImage = imresize(
             pygame.surfarray.array3d(pygame.image.load(cStringIO.StringIO(jpegbytes), 'tmp.jpg').convert()), (32, 24))
@@ -135,6 +138,7 @@ class roverShell(Rover20):
 
             self.w1 = self.w1 + 0.00001 * (-0.5 + np.random.random((self.w1.shape[0], self.w1.shape[1])))
             self.w2 = self.w2 + 0.00001 * (-0.5 + np.random.random((self.w2.shape[0], self.w2.shape[1])))
+
 
     # camera features
     def setPeripherals(self):

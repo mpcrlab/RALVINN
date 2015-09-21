@@ -70,12 +70,12 @@ class roverBrain():
         self.screen.blit(image10, (400, 0))
         pygame.display.update((400, 0, 32, 24))
 
-        for k in range(min(1, self.rover.n2)):
+        for k in range(min(7, self.rover.n2)):
             imagew11 = pygame.surfarray.make_surface(np.reshape(self.blitscale(self.rover.w1[:-1, k]), (32, 24, 3)))
             self.screen.blit(imagew11, (500 + 40 * k, 0))
             pygame.display.update((500 + 40 * k, 0, 32, 24))
 
-        for k in range(min(1, self.rover.n2)):
+        for k in range(min(7, self.rover.n2)):
             imagedw11 = pygame.surfarray.make_surface(np.reshape(self.blitscale(self.rover.dw1[:-1, k]), (32, 24, 3)))
             self.screen.blit(imagedw11, (500 + 40 * k, 50))
             pygame.display.update((500 + 40 * k, 50, 32, 24))
@@ -121,6 +121,8 @@ class roverBrain():
         elif key is K_d:
             self.rover.treads = [1, -1]
         elif key is K_q:
+            #print self.rover.nn_treads
+            #self.rover.treads = self.rover.nn_treads
             self.rover.treads = [.1, 1]
         elif key is K_e:
             self.rover.treads = [1, .1]
@@ -128,9 +130,6 @@ class roverBrain():
             self.rover.treads = [-.1, -1]
         elif key is K_c:
             self.rover.treads = [-1, -.1]
-        elif key is K_r:
-            # R will replace Q as the new learning button
-            self.rover.treads = self.rover.nn_treads
         else:
             pass
 

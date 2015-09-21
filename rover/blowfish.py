@@ -35,6 +35,7 @@ class Blowfish:
 
         self._keygen(key, ORIG_P)
 
+
     def encrypt(self, L, R):
         '''Accepts a pair of numbers and returns them in encrypted form.
         '''
@@ -46,6 +47,7 @@ class Blowfish:
         L ^= self.P[16]
         R ^= self.P[17]
         return (R, L)
+
 
     def decrypt(self, L, R):
         '''Accepts an encrypted pair of numbers and returns them in unencrypted 
@@ -59,6 +61,7 @@ class Blowfish:
         L ^= self.P[1]
         R ^= self.P[0]
         return (R, L)
+
 
     def _keygen(self, key, ORIG_P):
 
@@ -357,7 +360,7 @@ class Blowfish:
 
         x = _uint32(x)
         h = _uint32(self.S[0][x >> 24] + self.S[1][x >> 16 & 0xff])
-        return _uint32((h ^ self.S[2][x >> 8 & 0xff]) + self.S[3][x & 0xff])
+        return _uint32(( h ^ self.S[2][x >> 8 & 0xff] ) + self.S[3][x & 0xff])
 
 
 def _uint32(n):
