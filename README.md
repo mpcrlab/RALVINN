@@ -1,5 +1,5 @@
-# RALVINN
-Rover Autonomous Land Vehicle in a Neural Network
+
+#Rover Autonomous Land Vehicle in a Neural Network
 -------------------------------------------------------
 
                         Machine Perception and Cognitive Robotics Laboratory
