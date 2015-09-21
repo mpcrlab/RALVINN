@@ -2,9 +2,9 @@
 Rover Autonomous Land Vehicle in a Neural Network
 ------------------------------------------------------
 
-                            Machine Perception and Cognitive Robotics Laboratory
-                                Center for Complex Systems and Brain Sciences
-                                   Florida Atlantic University
+                        Machine Perception and Cognitive Robotics Laboratory
+                            Center for Complex Systems and Brain Sciences
+                               Florida Atlantic University
 ------------------------------------------------------
 
   Distributed ALVINN, See:
@@ -14,4 +14,4 @@ Rover Autonomous Land Vehicle in a Neural Network
   Artificial Intelligence And Psychology Project, 1989.
 
 ------------------------------------------------------
-                                            Brookstone Rover 2.0
+                                      Brookstone Rover 2.0
