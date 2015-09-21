@@ -63,8 +63,7 @@ class roverShell(Rover20):
 
         self.L1 = 0.001
         self.L2 = 0.01
-        self.M = .5
-
+        self.M = .5 # new value
 
     # main loop
     def processVideo(self, jpegbytes, timestamp_10msec):
