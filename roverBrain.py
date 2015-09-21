@@ -26,10 +26,10 @@ class roverBrain():
         self.quit = False
         self.rover = roverShell()
 
-        self.fps = 10
+        self.fps = 10 # Camera Frame Rate
         self.windowSize = [840, 380]
         self.imageRect = (0, 0, 320, 240)
-        self.displayCaption = "DALVINN"
+        self.displayCaption = "Machine Perception and Cognitive Robotics RALVINN"
 
         pygame.init()
         pygame.display.init()
@@ -70,6 +70,7 @@ class roverBrain():
         self.screen.blit(image10, (400, 0))
         pygame.display.update((400, 0, 32, 24))
 
+        # in min(7) 7 is the number of neurons you can see.
         for k in range(min(7, self.rover.n2)):
             imagew11 = pygame.surfarray.make_surface(np.reshape(self.blitscale(self.rover.w1[:-1, k]), (32, 24, 3)))
             self.screen.blit(imagew11, (500 + 40 * k, 0))
@@ -110,6 +111,7 @@ class roverBrain():
 
     def updateTreads(self, key=None):
 
+        # tread speed ranges from 0 (none) to one (full speed) so [.5 ,.5] would be half full speed
         if key is None:
             self.rover.treads = [0, 0]
         elif key is K_w:
@@ -121,8 +123,6 @@ class roverBrain():
         elif key is K_d:
             self.rover.treads = [1, -1]
         elif key is K_q:
-            #print self.rover.nn_treads
-            #self.rover.treads = self.rover.nn_treads
             self.rover.treads = [.1, 1]
         elif key is K_e:
             self.rover.treads = [1, .1]

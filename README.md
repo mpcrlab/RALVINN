@@ -15,3 +15,31 @@ Rover Autonomous Land Vehicle in a Neural Network
 
 ------------------------------------------------------
                                      Brookstone Rover 2.0
+------------------------------------------------------
+ How to use this code:
+    1) You will need a Brookstone Rover 2.0
+    2) Download the Source code into a local directory
+    3) Open the code in your favorite python IDE i.e Pycharm or Spyder
+    4) Turn on the Rover 2.0 and connect to the signal created by the rover. It will have a name
+       like ROVER_ID
+    5) Run MPCR_RALVINN.py
+    6) If done correctly you will see a live feed from the Rover 2.0 camera.
+    7) Control the Rover 2.0 using:
+        W - Forward
+        S - Back
+        D - Right
+        A - LEFT
+        J - Camera Up
+        K - Camera Down
+        I - Toggle Lights
+        R - Neural Network
+    8) Enjoy, have fun and help us by improving the code.
+
+
+------------------------------------------------------
+                                            Notes
+------------------------------------------------------
+    1) The Neural Network is set to 50 neurons
+    2) The current frame rate is 10 FPS, max is 48
+    3) Each tread is set to full speed [1,1]
+    4) Take a picture is currently disabled.
