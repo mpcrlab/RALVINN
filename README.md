@@ -28,6 +28,7 @@
         S - Back
         D - Right
         A - LEFT
+        U - Toggle Infrared Night Vision.
         J - Camera Up
         K - Camera Down
         I - Toggle Lights
@@ -42,3 +43,4 @@
     2) The current frame rate is 10 FPS, max is 48
     3) Each tread is set to full speed [1,1]
     4) Take a picture is currently disabled.
+    5) Rover 2.0 has a mic and speakers.
