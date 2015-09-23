@@ -49,11 +49,14 @@ class roverBrain():
 
     def blitscale(self, x):
         try:
-            x -= np.min(x)
-            x = x / np.linalg.norm(x)
-            x *= 255.0 / x.max()
+            if (x==0):
+                pass
+            else:
+                x -= np.min(x)
+                x = x / np.linalg.norm(x)
+                x *= 255.0 / x.max()
 
-            return x
+                return x
         except:
             pass
 
