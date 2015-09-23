@@ -33,7 +33,6 @@ from af import *
 
 from rover import Rover20
 
-
 class roverShell(Rover20):
     def __init__(self):
         Rover20.__init__(self)

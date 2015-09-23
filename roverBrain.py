@@ -20,6 +20,7 @@
 
 from roverShell import *
 import numpy as np
+import scipy.io as sio
 
 
 class roverBrain():
@@ -97,12 +98,12 @@ class roverBrain():
             elif event.type == KEYDOWN:
                 if event.key in (K_j, K_k, K_SPACE, K_u, K_i, K_o):
                     self.updatePeripherals(event.key)
-                elif event.key in (K_w, K_a, K_s, K_d, K_q, K_e, K_z, K_c, K_r):
+                elif event.key in (K_w, K_a, K_s, K_d, K_q, K_e, K_z, K_c, K_r, K_l):
                     self.updateTreads(event.key)
                 else:
                     pass
             elif event.type == KEYUP:
-                if event.key in (K_w, K_a, K_s, K_d, K_q, K_e, K_z, K_c, K_r):
+                if event.key in (K_w, K_a, K_s, K_d, K_q, K_e, K_z, K_c, K_r, K_l):
                     self.updateTreads()
                 elif event.key in (K_j, K_k):
                     self.updatePeripherals()
@@ -145,6 +146,8 @@ class roverBrain():
             self.rover.treads = [-.1, -1]
         elif key is K_c:
             self.rover.treads = [-1, -.1]
+        elif key is K_l:
+            sio.savemat('rover_brain.mat', {'number_neurons':})
         elif key is K_r:
             self.rover.treads = self.rover.nn_treads
         else:
