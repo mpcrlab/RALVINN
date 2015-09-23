@@ -52,18 +52,23 @@ class roverShell(Rover20):
         self.action_vectors_neuro = [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]
 
         self.n1 = 32 * 24 * 3
-        self.n2 = 25  # Number of neurons on the network
-        self.n3 = 4  # Number of actions available, like forward, back , left and right.
+        # Number of neurons on the network
+        self.number_of_neurons = 25
+        # Number of actions available, like forward, back , left and right.
+        self.number_of_actions = 4
 
-        self.w1 = 0.0001 * np.random.random((self.n1 + 1, self.n2))
-        self.w2 = 0.01 * np.random.random((self.n2 + 1, self.n3))
+        self.network_weight_one = 0.0001 * np.random.random((self.n1 + 1, self.number_of_neurons))
+        self.network_weight_two = 0.01 * np.random.random((self.number_of_neurons + 1, self.number_of_actions))
 
-        self.dw1 = np.zeros(self.w1.shape)
-        self.dw2 = np.zeros(self.w2.shape)
+        self.dw1 = np.zeros(self.network_weight_one.shape)
+        self.dw2 = np.zeros(self.network_weight_two.shape)
 
-        self.L1 = 0.001  # learning rate of network
-        self.L2 = 0.01  # learning rate of network
-        self.M = .5  # magnitude of weights
+        # learning rate of network
+        self.network_learning_rate_one = 0.001
+        # learning rate of network
+        self.network_learning_rate_two = 0.01
+        # Network Momemtum Value
+        self.M = .5
 
     # main loop
     def processVideo(self, jpegbytes, timestamp_10msec):
@@ -75,7 +80,7 @@ class roverShell(Rover20):
             self.currentImage = jpegbytes
         self.lock.release()
         self.setTreads(self.treads[0], self.treads[1])
-        self.setPeripherals()
+        self.setperipherals()
         if self.quit:
             self.close()
 
@@ -98,9 +103,10 @@ class roverShell(Rover20):
 
             self.pattern = np.concatenate((self.pattern, self.bias), axis=1)
 
-            self.act1 = np.concatenate((np.squeeze(np.array(af(np.dot(self.pattern, self.w1)))), self.bias), axis=1)
+            self.act1 = np.concatenate(
+                (np.squeeze(np.array(af(np.dot(self.pattern, self.network_weight_one)))), self.bias), axis=1)
 
-            self.act2 = np.squeeze(np.array(af(np.dot(self.act1, self.w2))))
+            self.act2 = np.squeeze(np.array(af(np.dot(self.act1, self.network_weight_two))))
 
             self.act22 = 0 * self.act2
 
@@ -125,24 +131,28 @@ class roverShell(Rover20):
 
                 self.delta_w2 = self.error * self.act2 * (1 - self.act2)
 
-                self.delta_w1 = np.dot(self.delta_w2, self.w2.transpose()) * self.act1 * (1 - self.act1)
+                self.delta_w1 = np.dot(self.delta_w2, self.network_weight_two.transpose()) * self.act1 * (1 - self.act1)
 
                 self.delta_w1 = np.delete(self.delta_w1, -1, 1)
 
-                self.dw1 = np.dot(self.L1, np.dot(self.pattern.transpose(), self.delta_w1)) + self.M * self.dw1
-                self.dw2 = np.dot(self.L2, np.dot(self.act1.transpose(), self.delta_w2)) + self.M * self.dw2
-                self.w1 = self.w1 + self.dw1
-                self.w2 = self.w2 + self.dw2
+                self.dw1 = np.dot(self.network_learning_rate_one,
+                                  np.dot(self.pattern.transpose(), self.delta_w1)) + self.M * self.dw1
+                self.dw2 = np.dot(self.network_learning_rate_two,
+                                  np.dot(self.act1.transpose(), self.delta_w2)) + self.M * self.dw2
+                self.network_weight_one = self.network_weight_one + self.dw1
+                self.network_weight_two = self.network_weight_two + self.dw2
 
-                self.w1 = self.w1 + 0.0001 * (
-                    -0.5 + np.random.random((self.w1.shape[0], self.w1.shape[1])))  # increase random Value
-                self.w2 = self.w2 + 0.0001 * (
-                    -0.5 + np.random.random((self.w2.shape[0], self.w2.shape[1])))  # increase random Value
+                self.network_weight_one = self.network_weight_one + 0.0001 * (
+                    -0.5 + np.random.random(
+                        (self.network_weight_one.shape[0], self.network_weight_one.shape[1])))  # increase random Value
+                self.network_weight_two = self.network_weight_two + 0.0001 * (
+                    -0.5 + np.random.random(
+                        (self.network_weight_two.shape[0], self.network_weight_two.shape[1])))  # increase random Value
         except:
             pass
 
     # camera features
-    def setPeripherals(self):
+    def setperipherals(self):
         if self.peripherals['lights']:
             self.turnLightsOn()
         else:

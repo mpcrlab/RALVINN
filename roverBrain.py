@@ -5,9 +5,9 @@
 #   Center for Complex Systems and Brain Sciences
 #           Florida Atlantic University
 #
-#------------------------------------------------------#
+# ------------------------------------------------------#
 ########################################################
-#------------------------------------------------------#
+# ------------------------------------------------------#
 #
 # Distributed ALVINN, See:
 # Pomerleau, Dean A. Alvinn:
@@ -15,10 +15,12 @@
 # No. AIP-77. Carnegie-Mellon Univ Pittsburgh Pa
 # Artificial Intelligence And Psychology Project, 1989.
 #
-#------------------------------------------------------#
+# ------------------------------------------------------#
 ########################################################
 
 from roverShell import *
+import numpy as np
+
 
 class roverBrain():
     def __init__(self):
@@ -27,7 +29,7 @@ class roverBrain():
 
         self.quit = False
         self.rover = roverShell()
-        self.fps = 10 # Camera Frame Rate
+        self.fps = 10  # Camera Frame Rate
         self.windowSize = [840, 380]
         self.imageRect = (0, 0, 320, 240)
         self.displayCaption = "Machine Perception and Cognitive Robotics RALVINN"
@@ -38,7 +40,6 @@ class roverBrain():
         self.clock = pygame.time.Clock()
         self.run()
 
-
     def run(self):
         sleep(1.5)
         while not self.quit:
@@ -48,17 +49,12 @@ class roverBrain():
         pygame.quit()
 
     def blitscale(self, x):
-        try:
-            if (x==0):
-                pass
-            else:
-                x -= np.min(x)
-                x = x / np.linalg.norm(x)
-                x *= 255.0 / x.max()
+        np.seterr(divide = 'ignore', invalid = 'ignore')
+        x -= np.min(x)
+        x = x / np.linalg.norm(x)
+        x *= 255.0 / x.max()
 
-                return x
-        except:
-            pass
+        return x
 
     def refreshVideo(self):
 
@@ -76,24 +72,23 @@ class roverBrain():
         pygame.display.update((400, 0, 32, 24))
 
         # in min(7) 7 is the number of neurons you can see.
-        try:
-            for k in range(min(7, self.rover.n2)):
-                imagew11 = pygame.surfarray.make_surface(np.reshape(self.blitscale(self.rover.w1[:-1, k]), (32, 24, 3)))
-                self.screen.blit(imagew11, (500 + 40 * k, 0))
-                pygame.display.update((500 + 40 * k, 0, 32, 24))
 
-            for k in range(min(7, self.rover.n2)):
-                imagedw11 = pygame.surfarray.make_surface(np.reshape(self.blitscale(self.rover.dw1[:-1, k]), (32, 24, 3)))
-                self.screen.blit(imagedw11, (500 + 40 * k, 50))
-                pygame.display.update((500 + 40 * k, 50, 32, 24))
-        except:
-            pass
+        for k in range(min(7, self.rover.number_of_neurons)):
+            imagew11 = pygame.surfarray.make_surface(
+                np.reshape(self.blitscale(self.rover.network_weight_one[:-1, k]), (32, 24, 3)))
+            self.screen.blit(imagew11, (500 + 40 * k, 0))
+            pygame.display.update((500 + 40 * k, 0, 32, 24))
+
+        for k in range(min(7, self.rover.number_of_neurons)):
+            imagedw11 = pygame.surfarray.make_surface(
+                np.reshape(self.blitscale(self.rover.dw1[:-1, k]), (32, 24, 3)))
+            self.screen.blit(imagedw11, (500 + 40 * k, 50))
+            pygame.display.update((500 + 40 * k, 50, 32, 24))
 
         self.screen.blit(image, (0, 0))
         pygame.display.update(self.imageRect)
 
         self.clock.tick(self.fps)
-
 
     def parseControls(self):
         for event in pygame.event.get():
@@ -117,17 +112,17 @@ class roverBrain():
                 pass
 
     def takepicure(self):
-            with open(self.newpicturename, 'w') as pic:
-                self.rover.lock.acquire()
-                pic.write(self.rover.currentImage)
-                self.rover.lock.release()
+        with open(self.newpicturename, 'w') as pic:
+            self.rover.lock.acquire()
+            pic.write(self.rover.currentImage)
+            self.rover.lock.release()
 
     @property
     def newpicturename(self):
-            todaysDate = str(date.today())
-            uniquekey = ''.join(choice(ascii_lowercase + ascii_uppercase))
-            for _ in range(4):
-                return todaysDate+'_'+uniquekey+'.jpq'
+        todaysDate = str(date.today())
+        uniquekey = ''.join(choice(ascii_lowercase + ascii_uppercase))
+        for _ in range(4):
+            return todaysDate + '_' + uniquekey + '.jpq'
 
     def updateTreads(self, key=None):
 
