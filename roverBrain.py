@@ -20,20 +20,20 @@
 
 from roverShell import *
 
-
 class roverBrain():
     def __init__(self):
+        pygame.init()
+        pygame.display.init()
+
         self.quit = False
         self.rover = roverShell()
-
         self.fps = 10 # Camera Frame Rate
         self.windowSize = [840, 380]
         self.imageRect = (0, 0, 320, 240)
         self.displayCaption = "Machine Perception and Cognitive Robotics RALVINN"
 
-        pygame.init()
-        pygame.display.init()
         pygame.display.set_caption(self.displayCaption)
+
         self.screen = pygame.display.set_mode(self.windowSize)
         self.clock = pygame.time.Clock()
         self.run()
@@ -48,12 +48,14 @@ class roverBrain():
         pygame.quit()
 
     def blitscale(self, x):
-        x -= np.min(x)
-        x = x / np.linalg.norm(x)
-        x *= 255.0 / x.max()
+        try:
+            x -= np.min(x)
+            x = x / np.linalg.norm(x)
+            x *= 255.0 / x.max()
 
-        return x
-
+            return x
+        except:
+            pass
 
     def refreshVideo(self):
 
@@ -71,15 +73,18 @@ class roverBrain():
         pygame.display.update((400, 0, 32, 24))
 
         # in min(7) 7 is the number of neurons you can see.
-        for k in range(min(7, self.rover.n2)):
-            imagew11 = pygame.surfarray.make_surface(np.reshape(self.blitscale(self.rover.w1[:-1, k]), (32, 24, 3)))
-            self.screen.blit(imagew11, (500 + 40 * k, 0))
-            pygame.display.update((500 + 40 * k, 0, 32, 24))
+        try:
+            for k in range(min(7, self.rover.n2)):
+                imagew11 = pygame.surfarray.make_surface(np.reshape(self.blitscale(self.rover.w1[:-1, k]), (32, 24, 3)))
+                self.screen.blit(imagew11, (500 + 40 * k, 0))
+                pygame.display.update((500 + 40 * k, 0, 32, 24))
 
-        for k in range(min(7, self.rover.n2)):
-            imagedw11 = pygame.surfarray.make_surface(np.reshape(self.blitscale(self.rover.dw1[:-1, k]), (32, 24, 3)))
-            self.screen.blit(imagedw11, (500 + 40 * k, 50))
-            pygame.display.update((500 + 40 * k, 50, 32, 24))
+            for k in range(min(7, self.rover.n2)):
+                imagedw11 = pygame.surfarray.make_surface(np.reshape(self.blitscale(self.rover.dw1[:-1, k]), (32, 24, 3)))
+                self.screen.blit(imagedw11, (500 + 40 * k, 50))
+                pygame.display.update((500 + 40 * k, 50, 32, 24))
+        except:
+            pass
 
         self.screen.blit(image, (0, 0))
         pygame.display.update(self.imageRect)
@@ -108,6 +113,21 @@ class roverBrain():
             else:
                 pass
 
+    def takepicure(self):
+            with open(self.newpicturename, 'w') as pic:
+                self.rover.lock.acquire()
+                pic.write(self.rover.currentImage)
+                self.rover.lock.release()
+
+    @property
+    def newpicturename(self):
+            todaysDate = str(date.today())
+            uniquekey = ''.join(choice(ascii_lowercase + ascii_uppercase))
+            for _ in range(4):
+                return todaysDate+'_'+uniquekey+'.jpq'
+
+
+
 
     def updateTreads(self, key=None):
 
@@ -130,9 +150,10 @@ class roverBrain():
             self.rover.treads = [-.1, -1]
         elif key is K_c:
             self.rover.treads = [-1, -.1]
+        elif key is K_r:
+            self.rover.treads = self.rover.nn_treads
         else:
             pass
-
 
     def updatePeripherals(self, key=None):
         if key is None:
@@ -151,6 +172,6 @@ class roverBrain():
             self.rover.peripherals['detect'] = not \
                 self.rover.peripherals['detect']
         elif key is K_SPACE:
-            pass
+            self.takepicure()
         else:
             pass
