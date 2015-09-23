@@ -126,9 +126,6 @@ class roverBrain():
             for _ in range(4):
                 return todaysDate+'_'+uniquekey+'.jpq'
 
-
-
-
     def updateTreads(self, key=None):
 
         # tread speed ranges from 0 (none) to one (full speed) so [.5 ,.5] would be half full speed
