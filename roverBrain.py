@@ -147,7 +147,8 @@ class roverBrain():
         elif key is K_c:
             self.rover.treads = [-1, -.1]
         elif key is K_l:
-            sio.savemat('rover_brain.mat', {'number_neurons':})
+            #sio.savemat('rover_brain.mat', {'number_neurons':})
+            pass
         elif key is K_r:
             self.rover.treads = self.rover.nn_treads
         else:
