@@ -53,7 +53,7 @@ class roverShell(Rover20):
 
         self.n1 = 32 * 24 * 3
         # Number of neurons on the network
-        self.number_of_neurons = 25
+        self.number_of_neurons = 50
         # Number of actions available, like forward, back , left and right.
         self.number_of_actions = 4
 
